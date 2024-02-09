@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jpgyr4+HAgTdpSzS3k7Ft90/YW1+hx2hjl8o5mDiEqfthd7dkkqK8hK2i6/besAV5bJIuqZyGXMk6J+1a2AIow==",
+  "dgSpecHash": "AjpmgzbBGxJ89y75cApEYMUX9vnnPEXWeX5wU5jncGvNnodMb/XUPd/T5YFzKFmlg1Qh2z2h2acUYpeNEktYEg==",
   "success": true,
-  "projectFilePath": "/home/leonard/Projects/Catalyst/..csproj",
+  "projectFilePath": "/home/leonard/Projects/Catalyst/Catalyst.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

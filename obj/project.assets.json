@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/leonard/Projects/Catalyst/..csproj",
-      "projectName": ".",
-      "projectPath": "/home/leonard/Projects/Catalyst/..csproj",
+      "projectUniqueName": "/home/leonard/Projects/Catalyst/Catalyst.csproj",
+      "projectName": "Catalyst",
+      "projectPath": "/home/leonard/Projects/Catalyst/Catalyst.csproj",
       "packagesPath": "/home/leonard/.nuget/packages/",
       "outputPath": "/home/leonard/Projects/Catalyst/obj/",
       "projectStyle": "PackageReference",
