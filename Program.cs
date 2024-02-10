@@ -1,6 +1,13 @@
+using System.Net;
+
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+// Accessing Configuration
+var config = builder.Configuration;
+int port = config.GetValue<int>("ServerSettings:Port");
+string hostAddress = config.GetValue<string>("ServerSettings:HostAddress") ?? "localhost";
 
-app.Run();
+// Configure Kestrel
+builder.WebHost.ConfigureKestrel(options => {
+    options.Listen(IPAddress.Parse(hostAddress), port);
+});
