@@ -28,3 +28,9 @@ builder.WebHost.ConfigureKestrel(options => {
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 ILogger logger = factory.CreateLogger("Configuration");
 logger.LogInformation("Server configured to listen on: {hostAddress}:{port}", hostAddress, port);
+
+var app = builder.Build();
+
+app.MapGet("/", () => "Hello from the server!");
+
+app.Run();
