@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,3 +12,7 @@ string hostAddress = config.GetValue<string>("ServerSettings:HostAddress") ?? "l
 builder.WebHost.ConfigureKestrel(options => {
     options.Listen(IPAddress.Parse(hostAddress), port);
 });
+
+using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+ILogger logger = factory.CreateLogger("Configuration");
+logger.LogInformation("Server configured to listen on: {hostAddress}:{port}", hostAddress, port);
