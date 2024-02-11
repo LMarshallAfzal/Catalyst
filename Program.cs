@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Accessing Configuration
 var config = builder.Configuration;
+var routes = config.GetSection("Routes").Get<IEnumerable<RouteDefinition>>();
 string rawPort;
 string hostAddress;
 
@@ -31,7 +32,7 @@ bool isValidHost = hostAddress == "127.0.0.1";
 
 if (!isValidHost)
 {
-    Console.Error.WriteLine("Error invalid host in configuration (must be ina the format of an IPv4 address)");
+    Console.Error.WriteLine("Error: Invalid host in configuration (must be in the format of an IPv4 address)");
 }
 
 // Configure Kestrel
@@ -44,8 +45,28 @@ using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsol
 ILogger logger = factory.CreateLogger("Configuration");
 logger.LogInformation("Server configured to listen on: {hostAddress}:{port}", hostAddress, port);
 
-var app = builder.Build();
+var app = WebApplication.Create();
 
-app.MapGet("/", () => "Hello from the server!");
+foreach (var route in routes)
+{
+    if (route.Method != null)
+    {
+        switch (route.Method.ToUpper())
+        {
+            case "GET":
+                app.MapGet(route.Path, () => route.Response ?? "Route Matched!");
+                break;
+            case "POST":
+                app.MapPost(route.Path, () => route.Response ?? "Route Matched!");
+                break;
+            default:
+                Console.Error.WriteLine($"Unsupported HTTP Method: {route.Method}");
+                break;
+        }
+    } else 
+    {
+        Console.Error.WriteLine("Error: No HTTP method specified (must have one of the following methods: GET, POST, PUT, PATCH, DELETE).");
+    }
+}
 
 app.Run();
