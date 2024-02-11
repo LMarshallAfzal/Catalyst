@@ -4,24 +4,39 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Accessing Configuration
 var config = builder.Configuration;
-int port;
+string rawPort;
 string hostAddress;
 
 try 
 {
-    port = config.GetValue<int>("ServerSettings:Port");
+    rawPort = config.GetValue<string>("ServerSettings:Port") ?? "8080";
     hostAddress = config.GetValue<string>("ServerSettings:HostAddress") ?? "localhost";
 }
 catch (Exception e)
 {
     Console.Error.WriteLine("Error reading configuration: " + e.Message);
 
-    port = 8080;
+    rawPort = "8080";
     hostAddress = "127.0.0.1";
 }
 
+bool isValidPort = int.TryParse(rawPort, out int port) && port >= 1 && port <= 65535;
+
+if (!isValidPort) 
+{
+    Console.Error.WriteLine("Error: Invalid port in configuration (must be a number between 1-65535)");
+}
+
+bool isValidHost = hostAddress == "127.0.0.1";
+
+if (!isValidHost)
+{
+    Console.Error.WriteLine("Error invalid host in configuration (must be ina the format of an IPv4 address)");
+}
+
 // Configure Kestrel
-builder.WebHost.ConfigureKestrel(options => {
+builder.WebHost.ConfigureKestrel(options => 
+{
     options.Listen(IPAddress.Parse(hostAddress), port);
 });
 
