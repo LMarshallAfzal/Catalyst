@@ -5,8 +5,14 @@ namespace Catalyst.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FilesController : ControllerBase 
+    public class FilesController : ControllerBase
     {
+        private readonly IFileStorage _fileStorage;
+        public FilesController(IFileStorage fileStorage)
+        {
+            _fileStorage = fileStorage;
+        }
+
         [HttpPost("/upload")]
         public async Task<IActionResult> Upload() 
         {
@@ -18,12 +24,8 @@ namespace Catalyst.Controllers
                     var uploadFolderPath = Path.Combine("/path/to/store/uploads");
 
                     string safeFileName = SanitiseFileName(postedFile.FileName);
-                    var filePath = Path.Combine(uploadFolderPath, safeFileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await postedFile.CopyToAsync(stream);
-                    }
+                    
+                    await _fileStorage.SaveFileAsync(safeFileName, postedFile.OpenReadStream());
 
                     return Created("File uploaded successfully", safeFileName);
                 }
@@ -38,7 +40,7 @@ namespace Catalyst.Controllers
             }
         }
 
-        private string SanitiseFileName(string filename)
+        private static string SanitiseFileName(string filename)
         {
             var allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.";
             var cleanName = new string(filename.Where(c => allowedChars.Contains(c)).ToArray());
