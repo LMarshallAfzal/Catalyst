@@ -2,37 +2,51 @@ using Catalyst.Exceptions;
 using Catalyst.Models;
 using Microsoft.Extensions.Options;
 
-namespace Catalyst.Storage;
-
-public class LocalFileStorage : IFileStorage
+namespace Catalyst.Storage
 {
-    private readonly string _uploadFolder;
-
-    public LocalFileStorage(IOptions<FileStorageOptions> options)
+    /// <summary>
+    /// Provides an implementation of the IFileStorage interface for saving to the local filesystem
+    /// </summary>
+    public class LocalFileStorage : IFileStorage
     {
-        _uploadFolder = options.Value.UploadFolder;
-    }
+        private readonly string _uploadFolder;
 
-    public async Task SaveFileAsync(string filePath, Stream fileStream)
-    {
-        var fullPath = Path.Combine(_uploadFolder, filePath);
-        var directoryName = Path.GetDirectoryName(fullPath);
-        if (directoryName != null) { Directory.CreateDirectory(directoryName); }
-
-        try
+        /// <summary>
+        /// Creates an instance of LocalFileStorage.
+        /// </summary>
+        /// <param name="options">Options specifying the upload folder location.</param>
+        public LocalFileStorage(IOptions<FileStorageOptions> options)
         {
-            using var fs = new FileStream(fullPath, FileMode.Create);
-            await fileStream.CopyToAsync(fs);
+            _uploadFolder = options.Value.UploadFolder;
         }
-        catch (IOException e)
+
+        /// <summary>
+        /// Saves a file asynchronously to the configured local storage folder.
+        /// </summary>
+        /// <param name="filePath">The desired path (including filename) within the upload folder.</param>
+        /// <param name="fileStream">A stream containing the file content.</param>
+        /// <returns>Thrown for issues including insufficient disk space or other IO errors.</returns>
+        public async Task SaveFileAsync(string filePath, Stream fileStream)
         {
-            if (e.HResult == -2147024784)
+            var fullPath = Path.Combine(_uploadFolder, filePath);
+            var directoryName = Path.GetDirectoryName(fullPath);
+            if (directoryName != null) { Directory.CreateDirectory(directoryName); }
+
+            try
             {
-                throw new FileUploadFailedException("Failed to save due to insufficient disk space.", e);
+                using var fs = new FileStream(fullPath, FileMode.Create);
+                await fileStream.CopyToAsync(fs);
             }
-            else
+            catch (IOException e)
             {
-                throw new FileUploadFailedException("File save failded due to an IO error.", e);
+                if (e.HResult == -2147024784)
+                {
+                    throw new FileUploadFailedException("Failed to save due to insufficient disk space.", e);
+                }
+                else
+                {
+                    throw new FileUploadFailedException("File save failded due to an IO error.", e);
+                }
             }
         }
     }
