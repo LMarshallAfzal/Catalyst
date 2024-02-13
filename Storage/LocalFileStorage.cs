@@ -1,4 +1,5 @@
 using Catalyst.Models;
+using Microsoft.Extensions.Options;
 
 namespace Catalyst.Storage;
 
@@ -6,10 +7,9 @@ public class LocalFileStorage : IFileStorage
 {
     private readonly string _uploadFolder;
 
-    public LocalFileStorage(IConfiguration? config)
+    public LocalFileStorage(IOptions<FileStorageOptions> options)
     {
-        config ??= new ConfigurationBuilder().Build();
-        _uploadFolder = config["FileStorage: UploadFolder"] ?? "/home/leonard/Projects/Catalyst/uploads";
+        _uploadFolder = options.Value.UploadFolder;
     }
 
     public async Task SaveFileAsync(string filePath, Stream fileStream)

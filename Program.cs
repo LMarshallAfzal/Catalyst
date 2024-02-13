@@ -1,4 +1,6 @@
 using System.Net;
+using Microsoft.Extensions.Options;
+
 using Catalyst.Models;
 using Catalyst.Storage;
 
@@ -42,6 +44,7 @@ builder.WebHost.ConfigureKestrel(options =>
     options.Listen(IPAddress.Parse(hostAddress), port);
 });
 
+builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("FileStorage"));
 builder.Services.AddControllers();
 builder.Services.AddScoped<IFileStorage, LocalFileStorage>();
 

@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "AjpmgzbBGxJ89y75cApEYMUX9vnnPEXWeX5wU5jncGvNnodMb/XUPd/T5YFzKFmlg1Qh2z2h2acUYpeNEktYEg==",
+  "dgSpecHash": "fIEY5P228uWtSwLNNW3D/zW+5Qyleky6QV5bfm1HOyz8tqWuJp2oHDmWxTDzK+HeT6FHd7XiTZiVhuHVGFvMCw==",
   "success": true,
   "projectFilePath": "/home/leonard/Projects/Catalyst/Catalyst.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/leonard/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/home/leonard/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
+    "/home/leonard/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
