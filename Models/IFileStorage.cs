@@ -1,3 +1,5 @@
+namespace Catalyst.Models;
+
 public interface IFileStorage
 {
     Task SaveFileAsync(string filePath, Stream fileStream);

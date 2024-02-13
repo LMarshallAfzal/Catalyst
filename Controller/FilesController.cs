@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
+using Catalyst.Models;
 
 namespace Catalyst.Controllers 
 {
-    [Route("api/[controller]")]
+    [Route("v1/[controller]")]
     [ApiController]
     public class FilesController : ControllerBase
     {
@@ -13,7 +13,7 @@ namespace Catalyst.Controllers
             _fileStorage = fileStorage;
         }
 
-        [HttpPost("/upload")]
+        [HttpPost("upload")]
         public async Task<IActionResult> Upload() 
         {
             try
@@ -21,7 +21,8 @@ namespace Catalyst.Controllers
                 if (Request.Form.Files.Count > 0)
                 {
                     var postedFile = Request.Form.Files[0];
-                    var uploadFolderPath = Path.Combine("/path/to/store/uploads");
+                    var uploadFolderPath = Path.Combine("/home/leonard/Projects/Catalyst/uploads");
+                    Console.WriteLine(uploadFolderPath);
 
                     string safeFileName = SanitiseFileName(postedFile.FileName);
                     

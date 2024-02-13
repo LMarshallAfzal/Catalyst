@@ -1,10 +1,11 @@
 using System.Net;
+using Catalyst.Models;
+using Catalyst.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Accessing Configuration
 var config = builder.Configuration;
-var routes = config.GetSection("Routes").Get<IEnumerable<RouteDefinition>>();
 string rawPort;
 string hostAddress;
 
@@ -41,32 +42,20 @@ builder.WebHost.ConfigureKestrel(options =>
     options.Listen(IPAddress.Parse(hostAddress), port);
 });
 
+builder.Services.AddControllers();
+builder.Services.AddScoped<IFileStorage, LocalFileStorage>();
+
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 ILogger logger = factory.CreateLogger("Configuration");
 logger.LogInformation("Server configured to listen on: {hostAddress}:{port}", hostAddress, port);
 
-var app = WebApplication.Create();
+var app = builder.Build();
 
-foreach (var route in routes)
-{
-    if (route.Method != null)
-    {
-        switch (route.Method.ToUpper())
-        {
-            case "GET":
-                app.MapGet(route.Path, () => route.Response ?? "Route Matched!");
-                break;
-            case "POST":
-                app.MapPost(route.Path, () => route.Response ?? "Route Matched!");
-                break;
-            default:
-                Console.Error.WriteLine($"Unsupported HTTP Method: {route.Method}");
-                break;
-        }
-    } else 
-    {
-        Console.Error.WriteLine("Error: No HTTP method specified (must have one of the following methods: GET, POST, PUT, PATCH, DELETE).");
-    }
-}
+app.MapControllerRoute(
+    name: "default",
+    pattern: "v1/{controller=Files}/{action=Upload}/{id?}"
+);
+
+app.MapGet("/", () => "Hello from Minimal Test!");
 
 app.Run();

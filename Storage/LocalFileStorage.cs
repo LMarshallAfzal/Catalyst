@@ -1,3 +1,7 @@
+using Catalyst.Models;
+
+namespace Catalyst.Storage;
+
 public class LocalFileStorage : IFileStorage
 {
     private readonly string _uploadFolder;
@@ -5,7 +9,7 @@ public class LocalFileStorage : IFileStorage
     public LocalFileStorage(IConfiguration? config)
     {
         config ??= new ConfigurationBuilder().Build();
-        _uploadFolder = config["FileStorage: UploadFolder"] ?? "/uploads";
+        _uploadFolder = config["FileStorage: UploadFolder"] ?? "/home/leonard/Projects/Catalyst/uploads";
     }
 
     public async Task SaveFileAsync(string filePath, Stream fileStream)
