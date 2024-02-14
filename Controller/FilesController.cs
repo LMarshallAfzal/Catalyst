@@ -37,7 +37,6 @@ namespace Catalyst.Controllers
             {
                 var postedFile = Request.Form.Files[0];
                 var uploadFolderPath = Path.Combine("/home/leonard/Projects/Catalyst/uploads");
-                Console.WriteLine(uploadFolderPath);
 
                 string safeFileName = SanitiseFileName(postedFile.FileName);
 
