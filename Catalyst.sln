@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalyst", "Catalyst.csproj", "{A70484A7-3A5E-4D8F-95E9-5174A55B292F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalyst", "src\Catalyst.csproj", "{A70484A7-3A5E-4D8F-95E9-5174A55B292F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalyst.Tests", "tests\Catalyst.Tests\Catalyst.Tests.csproj", "{8E8F8219-0630-4AC3-A3C7-129039D09DB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A70484A7-3A5E-4D8F-95E9-5174A55B292F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A70484A7-3A5E-4D8F-95E9-5174A55B292F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A70484A7-3A5E-4D8F-95E9-5174A55B292F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E8F8219-0630-4AC3-A3C7-129039D09DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E8F8219-0630-4AC3-A3C7-129039D09DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E8F8219-0630-4AC3-A3C7-129039D09DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E8F8219-0630-4AC3-A3C7-129039D09DB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
